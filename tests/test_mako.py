@@ -7,11 +7,16 @@ else:
     import unittest
 
 from contextlib import contextmanager
+from pkg_resources import parse_version, get_distribution
 
 import flask
 from flask import Flask, Blueprint, g
-from flask.ext.mako import (MakoTemplates, TemplateError, render_template,
-                            render_template_string, render_template_def)
+if parse_version(get_distribution('flask').version) >= parse_version('1.0'):
+    from flask_mako import (MakoTemplates, TemplateError, render_template,
+                                render_template_string, render_template_def)
+else:
+    from flask.ext.mako import (MakoTemplates, TemplateError, render_template,
+                                render_template_string, render_template_def)
 
 from mako.exceptions import CompileException
 

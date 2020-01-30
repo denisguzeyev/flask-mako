@@ -28,12 +28,17 @@ from mako.lookup import TemplateLookup
 from mako.template import Template
 from mako import exceptions
 from mako.exceptions import RichTraceback, text_error_template
+from pkg_resources import parse_version, get_distribution
 
 
 itervalues = getattr(dict, 'itervalues', dict.values)
 
-_BABEL_IMPORTS =  'from flask.ext.babel import gettext as _, ngettext, ' \
-                  'pgettext, npgettext'
+if parse_version(get_distribution('flask').version) >= parse_version('1.0'):
+    _BABEL_IMPORTS =  'from flask_babel import gettext as _, ngettext, ' \
+                      'pgettext, npgettext'
+else:
+    _BABEL_IMPORTS =  'from flask.ext.babel import gettext as _, ngettext, ' \
+                      'pgettext, npgettext'
 _FLASK_IMPORTS =  'from flask.helpers import url_for, get_flashed_messages'
 
 class MakoFrame(Frame):
